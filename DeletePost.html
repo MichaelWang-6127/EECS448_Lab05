@@ -1,0 +1,61 @@
+<html>
+  <head>
+  	<?php
+  	function postTable()
+  	{
+	  	$mysqli = new mysqli("mysql.eecs.ku.edu", "mwang", "m806w839", "mwang");
+		if ($mysqli->connect_errno)
+		{
+			printf("Connect failed: %s\n", $mysqli->connect_error);
+			exit();
+		}
+
+	  	$search = "SELECT content FROM Posts ";
+		$search2 = "SELECT author_id FROM Posts ";
+		$search3 = "SELECT post_id FROM Posts ";
+		
+	  	echo "<table border='5' id='infoTable'>";
+
+	  	$postsFromUser =  $mysqli->query($search);
+		
+		echo "<th>".'posts'."</th>".PHP_EOL;
+		
+		while($row = $postsFromUser->fetch_assoc())
+		{
+			echo "<td>".$row["content"]."</td>".PHP_EOL;
+		}
+		echo "<tr>".PHP_EOL;
+		echo "</tr>".PHP_EOL;
+
+		$postsUser =  $mysqli->query($search2);
+		echo "<th>".'author_id'."</th>".PHP_EOL;
+		while($row = $postsUser->fetch_assoc())
+		{
+			echo "<td>".$row["author_id"]."</td>".PHP_EOL;
+		}
+		echo "<tr>".PHP_EOL;
+		echo "</tr>".PHP_EOL;
+
+		$postID =  $mysqli->query($search3);
+		echo "<th>".'Delete?'."</th>".PHP_EOL;
+		while($row = $postID->fetch_assoc())
+		{
+			$postValue = $row["post_id"];
+			echo "<td>"."<input type='checkbox' value='$postValue' name='postId[]' id='$postValue'>"."</td>".PHP_EOL;
+		}		
+
+		echo "</table>";
+	}
+	?>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body>
+  	<form action="DeletePost.php">
+  	<?php echo postTable(); ?>
+
+  	<input type="submit" value="submit">
+  	</form>
+  </body>
+</html>
