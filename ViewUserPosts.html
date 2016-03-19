@@ -1,0 +1,40 @@
+<html>
+  <head>
+  	<?php
+	function userOptions()
+	{
+		$mysqli = new mysqli("mysql.eecs.ku.edu", "mwang", "m806w839", "mwang");
+		if ($mysqli->connect_errno)
+		{
+			printf("Connect failed: %s\n", $mysqli->connect_error);
+			exit();
+		}
+
+	  	$search = "SELECT user_id FROM Users";
+		echo "<select name='Users'>";
+
+	  	$listOfUsers =  $mysqli->query($search);
+
+		while($row = $listOfUsers->fetch_assoc())
+		{
+			$tValue = $row["user_id"];
+			echo "<option value='$tValue'>".$row["user_id"]."</option>".PHP_EOL; 
+		}
+		echo "</select>";
+	}
+	?>
+    
+    <title></title>
+    <meta content="">
+    <style></style>
+  	</head>
+  	<body>
+  	
+  	<form action="ViewUserPosts.php">
+  	<?php echo userOptions(); ?>
+
+  	<input type="submit" value="submit">
+  	</form>
+
+  	</body>
+</html>
